@@ -1,7 +1,7 @@
 {
-  "name": "serverless-youtube-podcasts",
+  "name": "serverless-google-calendar-export",
   "version": "0.0.1",
-  "description": "Serverless Youtube Podcast Feeds",
+  "description": "Serverless Google Calendar Export",
   "author": "",
   "license": "MIT",
   "dependencies": {
