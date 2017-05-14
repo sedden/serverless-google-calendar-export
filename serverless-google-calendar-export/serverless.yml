@@ -1,0 +1,64 @@
+service: serverless-google-calendar-export
+
+frameworkVersion: ">=1.0.0 <2.0.0"
+
+package:
+  exclude:
+    - node_modules/**
+
+
+# Provider
+provider:
+  name: aws
+  runtime: python2.7
+  region: eu-west-1
+  environment:
+    CALENDARS_TABLE: ${self:service}-calendars-${opt:stage,self:provider.stage}
+    CLIENT_ID: ${file(serverless.env.yml):CLIENT_ID}
+    CLIENT_SECRET: ${file(serverless.env.yml):CLIENT_SECRET}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.CALENDARS_TABLE}"
+
+
+# Functions 
+functions:
+
+  export_calendar:
+    handler: handler.export_calendar
+    events:
+      - http:
+          path: calendars/{id}
+          method: get
+
+
+# Resources
+resources:
+  Resources:
+    VideosDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.CALENDARS_TABLE}
+
+
+# Plugins
+plugins:
+  - serverless-python-requirements
