@@ -2,8 +2,8 @@
 
 Export Google Calendars via Google Calendar CalDAV API.
 
-[![Build Status](https://travis-ci.org/sedden/serverless-google-calendar-export.svg?branch=master)](https://travis-ci.org/sedden/serverless-youtube-podcasts)
-[![Dependency Status](https://gemnasium.com/badges/github.com/sedden/serverless-google-calendar-export.svg)](https://gemnasium.com/github.com/sedden/serverless-youtube-podcasts)
+[![Build Status](https://travis-ci.org/sedden/serverless-google-calendar-export.svg?branch=master)](https://travis-ci.org/sedden/serverless-google-calendar-export)
+[![Dependency Status](https://gemnasium.com/badges/github.com/sedden/serverless-google-calendar-export.svg)](https://gemnasium.com/github.com/sedden/serverless-google-calendar-export)
 
 ## Quick start
 
@@ -41,7 +41,7 @@ Active:
 Verify:
 
     which python
-    /Users/.../.../serverless-youtube-podcasts/venv/bin/python
+    /Users/.../.../serverless-google-calendar-export/venv/bin/python
 
 #### Install Python libraries nodeenv and boto3
 
@@ -55,8 +55,8 @@ Install Node.Js version 6.10.2 via [nodeenv](https://github.com/ekalinin/nodeenv
 
     nodeenv -p -n 6.10.2
      * Install prebuilt node (6.10.2) ..... done.
-     * Appending data to /Users/.../.../serverless-youtube-podcasts/venv/bin/activate
-     * Overwriting /Users/.../.../serverless-youtube-podcasts/venv/bin/shim with new content
+     * Appending data to /Users/.../.../serverless-google-calendar-export/venv/bin/activate
+     * Overwriting /Users/.../.../serverless-google-calendar-export/venv/bin/shim with new content
 
 Verify Node.Js and NPM versions:
 
