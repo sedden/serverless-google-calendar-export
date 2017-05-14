@@ -81,10 +81,10 @@ def get_item(calendar_id):
 
 def refresh_access_token(item):
     '''
-    Check if a new access token needs to be obtained.
+    Refresh access token if required.
     
     :param item: calendar item.
-    :return: updated refresh token.
+    :return: updated calendar item with valid access token.
     '''
 
     expiry = datetime.strptime(item.get('token_expiry', ''), DT_FORMAT)
@@ -99,11 +99,13 @@ def refresh_access_token(item):
         }
         r = requests.post('https://www.googleapis.com/oauth2/v4/token', data=data)
         r_json = r.json()
+
+        # calculate token expiry
         access_token_ = r_json['access_token']
         token_expiry = datetime.now() + timedelta(0, int(r_json['expires_in']))
         token_expiry_ = datetime.strftime(token_expiry, DT_FORMAT)
 
-        # update item
+        # update access token and token expiry
         table = DYNAMODB.Table(os.environ['CALENDARS_TABLE'])
         item = table.update_item(Key={'id': item.get('id', '')},
                                  UpdateExpression='SET token_expiry = :e, access_token = :a',
