@@ -39,20 +39,30 @@ def export_calendar(event, context):
     item = refresh_access_token(item)
 
     # fetch calendar
-    cal_id = item.get('cal_id', '')
-    r_headers = {'Authorization': 'Bearer ' + item.get('access_token', '')}
-    r = requests.get('https://apidata.googleusercontent.com/caldav/v2/' + cal_id + '/events',  headers = r_headers)
+    try:
+        cal_id = item.get('cal_id', '')
+        r_headers = {'Authorization': 'Bearer ' + item.get('access_token', '')}
+        r = requests.get('https://apidata.googleusercontent.com/caldav/v2/' + cal_id + '/events',  headers = r_headers)
 
-    # create response
-    response = {
-        'statusCode': 200,
-        'body': r.text,
-        'headers': {
-            'Content-Type' : r.headers['Content-Type'],
-            'ETag' : r.headers['ETag']
+        # raise error for bad request
+        r.raise_for_status()
+
+        # create response
+        response = {
+            'statusCode': 200,
+            'body': r.text,
+            'headers': {
+                'Content-Type' : r.headers['Content-Type'],
+                'ETag' : r.headers['ETag']
+            }
         }
-    }
-    return response
+        return response
+
+    except:
+        response = {
+            'statusCode': 400
+        }
+        return response
 
 
 def get_item(calendar_id):
