@@ -19,10 +19,10 @@ Additionally, please create the `serverless.env.yml` file and add the OAuth 2.0 
     
 ### Verify Python installation
 
-Ensure Python 2.7 is available:
+Ensure Python 3.6 is available:
 
     python --version
-    Python 2.7
+    Python 3.6.1
 
 Install virtualenv, if necessary:
 

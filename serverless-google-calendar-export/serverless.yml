@@ -10,7 +10,7 @@ package:
 # Provider
 provider:
   name: aws
-  runtime: python2.7
+  runtime: python3.6
   memory: 256
   region: eu-west-1
   environment:
