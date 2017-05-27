@@ -4,7 +4,7 @@ python:
 install: "pip install -r requirements.txt"
 script:
   - nodeenv -p -n 6.10.2
-  - npm install serverless@1.12.1 -g
+  - npm install serverless@1.14.0 -g
   - cd serverless-google-calendar-export/
   - npm install --save
   - sls requirements install

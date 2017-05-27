@@ -69,9 +69,9 @@ Verify Node.Js and NPM versions:
 
 ### Install Serverless Framework
 
-To install the serverless framework (currently version 1.12.1)
+To install the serverless framework (currently version 1.14.0)
 
-    npm install serverless@1.12.1 -g
+    npm install serverless@1.14.0 -g
 
 Change to `serverless-google-calendar-export/` directory and install plugins:
 
