@@ -1,8 +1,10 @@
 import os
+from datetime import datetime, timedelta
+
 import boto3
 import requests
 
-from datetime import datetime, timedelta
+GOOGLE_CALDAV_V2 = 'https://apidata.googleusercontent.com/caldav/v2/'
 
 DT_FORMAT = '%Y-%m-%dT%H:%M:%SZ'
 
@@ -13,11 +15,10 @@ DYNAMODB = boto3.resource('dynamodb')
 
 def export_calendar(event, context):
     '''
-    Export calendar via HTTP. 
-    
-    :param event: 
-    :param context: 
-    :return: 
+    Export calendar via HTTP.
+    :param event: AWS Lambda event data passed to handler.
+    :param context: AWS Lambda context data passed to handler.
+    :return: Calendar feed (VCALENDAR).
     '''
 
     # retrieve calendar item from DynamoDB
@@ -42,7 +43,7 @@ def export_calendar(event, context):
     try:
         cal_id = item.get('cal_id', '')
         r_headers = {'Authorization': 'Bearer ' + item.get('access_token', '')}
-        r = requests.get('https://apidata.googleusercontent.com/caldav/v2/' + cal_id + '/events',  headers = r_headers)
+        r = requests.get(GOOGLE_CALDAV_V2 + cal_id + '/events', headers=r_headers)
 
         # raise error for bad request
         r.raise_for_status()
@@ -68,13 +69,12 @@ def export_calendar(event, context):
 def get_item(calendar_id):
     '''
     Retrieve calendar item from DynamoDB.
-    
     :param calendar_id: calendar UUID.
     :return: calendar item.
     '''
 
     table = DYNAMODB.Table(os.environ['CALENDARS_TABLE'])
-    result = table.get_item(Key={'id': calendar_id})
+    result = table.get_item(Key={'id':calendar_id})
     item = result['Item']
     return item
 
@@ -82,7 +82,6 @@ def get_item(calendar_id):
 def refresh_access_token(item):
     '''
     Refresh access token if required.
-    
     :param item: calendar item.
     :return: updated calendar item with valid access token.
     '''
@@ -111,5 +110,4 @@ def refresh_access_token(item):
                                  UpdateExpression='SET token_expiry = :e, access_token = :a',
                                  ExpressionAttributeValues={':e': token_expiry_, ':a': access_token_},
                                  ReturnValues="UPDATED_NEW")
-
     return item
