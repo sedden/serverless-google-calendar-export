@@ -13,6 +13,7 @@ CLIENT_SECRET = os.environ['CLIENT_SECRET']
 
 DYNAMODB = boto3.resource('dynamodb')
 
+
 def export_calendar(event, context):
     '''
     Export calendar via HTTP.
@@ -53,8 +54,8 @@ def export_calendar(event, context):
             'statusCode': 200,
             'body': r.text,
             'headers': {
-                'Content-Type' : r.headers['Content-Type'],
-                'ETag' : r.headers['ETag']
+                'Content-Type': r.headers['Content-Type'],
+                'ETag': r.headers['ETag']
             }
         }
         return response
@@ -74,7 +75,7 @@ def get_item(calendar_id):
     '''
 
     table = DYNAMODB.Table(os.environ['CALENDARS_TABLE'])
-    result = table.get_item(Key={'id':calendar_id})
+    result = table.get_item(Key={'id': calendar_id})
     item = result['Item']
     return item
 
