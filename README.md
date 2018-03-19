@@ -16,7 +16,7 @@ Additionally, please create the `serverless.env.yml` file and add the OAuth 2.0 
 
     CLIENT_ID: 0123456789012-abcdefghijklmnopqrstuvwxyz123456.apps.googleusercontent.com
     CLIENT_SECRET: abc123def456ghi789jkl012
-    
+
 ### Verify Python installation
 
 Ensure Python 3.6 is available:
@@ -66,18 +66,16 @@ Verify Node.Js and NPM versions:
     npm -v
     3.10.10
 
-
 ### Install Serverless Framework
 
-To install the serverless framework (currently version 1.15.0)
+To install the serverless framework (currently version 1.26.1)
 
-    npm install serverless@1.15.0 -g
+    npm install serverless@1.26.1 -g
 
 Change to `serverless-google-calendar-export/` directory and install plugins:
 
     cd serverless-google-calendar-export/
     npm install --save
-
 
 ## Deploy
 
@@ -113,14 +111,13 @@ Deploy:
       export_calendar: serverless-google-calendar-export-dev-export_calendar
     Serverless: Removing old service versions...
 
-
 ## Test
 
 Install required python dependencies (populates `.requirements/` directory)
 
     sls requirements install
 
-### Initial OAuth 2.0 key exchange 
+### Initial OAuth 2.0 key exchange
 
 Beside a client ID and the client secret, a refresh token and an access token are
 required to use the Google Calendar API. This is how to obtain those tokens.
@@ -136,13 +133,13 @@ Please open this URL to grant read-only access to you Google Calendar
      client_id=client_id
 
 where the `client_id` needs to be replaced with the OAuth 2.0 client ID.
-  
+
 After approving the access request in the browser window, the authorization code will be passed via query parameter:
 
     http://localhost/callback?code=4/Q8r8X02b-pNtDfMwJbRn7cUshuq8
 
 To complete the step, this authorization code needs to be exchanged for the refresh and access token
- 
+
     http -f POST https://www.googleapis.com/oauth2/v4/token \
      code='4/Q8r8X02b-pNtDfMwJbRn7cUshuq8' \
      client_id='client_id' \
@@ -151,7 +148,7 @@ To complete the step, this authorization code needs to be exchanged for the refr
      grant_type='authorization_code'
 
 where `client_id` and `client_secret` needs to be replaced with the OAuth 2.0 client credentials.
-     
+
 The response will contain the `access_token` and `refresh_token`:
 
     {
@@ -160,7 +157,7 @@ The response will contain the `access_token` and `refresh_token`:
       "token_type":"Bearer",
       "refresh_token":"1/OokoluaNieS2Tayo8oh-Eec8lahn4zushi8joe8aeyu"
     }
-    
+
 Those tokens are required for the next step.
 
 ### Export calendar
@@ -174,19 +171,19 @@ A calendar can be exported by adding a new item like this
       "refresh_token": "1/OokoluaNieS2Tayo8oh-Eec8lahn4zushi8joe8aeyu",
       "token_expiry": "2017-05-14T23:00:53Z"
     }
-    
+
 into the DynamoDB calendars table, where
 
- * `id` is a random UUID,
- * `cal_id` is the ID of the Google Calendar to export,
- * `access_token` needs to be copied from previous step,
- * `refresh_token` needs to be copied from previous step,
- * `token_expiry` doesn't need to be changed (will be updated automatically).
- 
+* `id` is a random UUID,
+* `cal_id` is the ID of the Google Calendar to export,
+* `access_token` needs to be copied from previous step,
+* `refresh_token` needs to be copied from previous step,
+* `token_expiry` doesn't need to be changed (will be updated automatically).
+
 Afterwards, the calendar can be retrieved via its UUID:
- 
+
     http https://---.execute-api.eu-west-1.amazonaws.com/dev/calendars/6a40ae66-d00f-43f0-9ca2-be4e1022003d
- 
+
     BEGIN:VCALENDAR
     PRODID:-//Google Inc//Google Calendar 70.9054//EN
     VERSION:2.0
