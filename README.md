@@ -22,7 +22,7 @@ Additionally, please create the `serverless.env.yml` file and add the OAuth 2.0 
 Ensure Python 3.6 is available:
 
     python --version
-    Python 3.6.1
+    Python 3.6.5
 
 Install virtualenv, if necessary:
 
@@ -45,9 +45,9 @@ Verify:
 
 #### Install Python libraries nodeenv and boto3
 
-Install requirements defined in `requirements.txt`
+Install requirements defined in `requirements-dev.txt`
 
-    pip install -r requirements.txt
+    pip install -r requirements-dev.txt
 
 #### Install Node.Js
 
